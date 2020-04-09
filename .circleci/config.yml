@@ -15,8 +15,8 @@ jobs:
       - run: echo "A more familiar hi" > file.txt 
       - run: sleep 15
       - store_artifacts:
-          path: /tmp/files
-          destination: file.txt
+          path: file.txt
+          destination: /tmp/files
  
 workflows:
   version: 2
