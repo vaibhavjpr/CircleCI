@@ -25,10 +25,12 @@ jobs:
       - run: pip install awscli
   
   terraform-init:
-    docker: hashicorp/terraform:light
+    docker: 
+      - image: hashicorp/terraform:light
     environment:
       TF_IN_AUTOMATION: true
     steps:
+      - checkout
       - run: 
           name: Update PATH and Define Environment Variable at Runtime
           command: |
