@@ -23,7 +23,23 @@ jobs:
     steps:
       - checkout
       - run: pip install awscli
-
+  
+  terraform-init:
+    docker: hashicorp/terraform:light
+    environment:
+      TF_IN_AUTOMATION: true
+    steps:
+      - run: 
+          name: Update PATH and Define Environment Variable at Runtime
+          command: |
+            echo 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}' > $BASH_ENV
+            source $BASH_ENV
+      - run: terraform init -input=false
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  
+     
 workflows:
   version: 2
   one_and_two:
