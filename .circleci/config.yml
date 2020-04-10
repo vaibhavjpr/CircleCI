@@ -29,5 +29,9 @@ workflows:
   one_and_two:
     jobs:
       - build
-      - test
+      - test:
+          requires:
+            - build
       - awscli
+        requires:
+            - test
