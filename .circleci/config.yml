@@ -55,6 +55,16 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
+  
+  terraform-destroy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: destroy
+          command: destroy -auto-approve -state="terraform.tfstate"
+
      
 workflows:
   version: 2
@@ -67,3 +77,6 @@ workflows:
       - terraform-apply:
            requires:
              - terraform-plan
+      - terraform-destroy:
+           requires:
+             - terraform-apply
