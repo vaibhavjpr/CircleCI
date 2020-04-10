@@ -22,7 +22,7 @@ jobs:
       - image: circleci/python
     steps:
       - checkout
-      - pip install awscli
+      - run: pip install awscli
 
 workflows:
   version: 2
