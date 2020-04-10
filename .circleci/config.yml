@@ -31,7 +31,7 @@ jobs:
       TF_IN_AUTOMATION: true
     steps:
       - checkout
-      - run: /root/repo
+      - run: mkdir /root/repo
       - run: 
           name: Update PATH and Define Environment Variable at Runtime
           command: |
