@@ -31,12 +31,29 @@ jobs:
       TF_IN_AUTOMATION: true
     steps:
       - checkout
+      - run: /root/repo
       - run: 
           name: Update PATH and Define Environment Variable at Runtime
           command: |
             echo 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}' > $BASH_ENV
             source $BASH_ENV
       - run: terraform init -input=false
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  
+  terraform-plan:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: plan
+          command: terraform plan -no-color -out=tfplan  -input=false 
+      - store_artifacts:
+          path: ~/repo/tfplan
+          destination: tfplan
       - persist_to_workspace:
           root: ~/repo
           paths: .
@@ -55,3 +72,6 @@ workflows:
       - terraform-init:
            requires:
              - awscli
+      - terraform-plan:
+           requires:
+             - terraform-init
