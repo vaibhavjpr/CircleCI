@@ -1,4 +1,12 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: hashicorp/terraform:light
+  environment:
+    TF_IN_AUTOMATION: true
+
 jobs:
   build:
     docker:
@@ -25,13 +33,9 @@ jobs:
       - run: pip install awscli
   
   terraform-init:
-    docker: 
-      - image: hashicorp/terraform:light
-    environment:
-      TF_IN_AUTOMATION: true
+    <<: *defaults
     steps:
       - checkout
-      - run: mkdir /root/repo
       - run: 
           name: Update PATH and Define Environment Variable at Runtime
           command: |
@@ -43,8 +47,7 @@ jobs:
           paths: .
   
   terraform-plan:
-    docker:
-      - image: hashicorp/terraform:light
+    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/repo
