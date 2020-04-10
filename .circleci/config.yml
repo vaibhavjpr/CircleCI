@@ -64,3 +64,6 @@ workflows:
       - terraform-plan:
            requires:
              - terraform-init
+      - terraform-apply:
+           requires:
+             - terraform-plan
