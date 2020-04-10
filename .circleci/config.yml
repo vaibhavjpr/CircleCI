@@ -52,6 +52,6 @@ workflows:
       - awscli:
           requires:
             - test
-      - terraform:
+      - terraform-init:
            requires:
              - awscli
