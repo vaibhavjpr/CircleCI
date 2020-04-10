@@ -17,10 +17,17 @@ jobs:
       - store_artifacts:
           path: file.txt
           destination: /tmp/files
- 
+  awscli:
+    docker:
+      - image: circleci/python
+    steps:
+      - checkout
+      - pip install awscli
+
 workflows:
   version: 2
   one_and_two:
     jobs:
       - build
       - test
+      - awscli
