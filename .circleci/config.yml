@@ -38,11 +38,10 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
-  
      
 workflows:
   version: 2
-  one_and_two:
+  circlecitest:
     jobs:
       - build
       - test:
@@ -51,3 +50,6 @@ workflows:
       - awscli:
           requires:
             - test
+      - terraform:
+           requires:
+             - awscli
