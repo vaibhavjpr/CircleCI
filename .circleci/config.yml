@@ -63,7 +63,7 @@ jobs:
           at: ~/repo
       - run:
           name: destroy
-          command: destroy -auto-approve -state="terraform.tfstate"
+          command: terraform destroy -auto-approve -state="terraform.tfstate"
 
      
 workflows:
